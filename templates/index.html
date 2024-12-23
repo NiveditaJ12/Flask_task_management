@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href= 
+"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+        rel="stylesheet"
+        integrity= 
+"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+        crossorigin="anonymous"> 
+</head>
+<style>
+    .body {
+        margin: 0;
+        padding: 0;
+    }
+    .table-container {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px;
+    }
+    .table {
+        border-collapse: collapse;
+        width:45%;
+        margin-right: 10px;
+        background-color: grey;
+        color: white;
+    }
+    th, td { 
+            border: 1px solid black; 
+            padding: 8px; 
+            text-align: center; 
+        } 
+
+        th { 
+            background-color: #f2f2f2; 
+        } 
+</style>
+<body style="background-color:cadetblue;">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css' rel='stylesheet' />
+
+
+
+  <nav class="navbar navbar-deault">
+    <div class="container-fluid">
+      <div class="navbar-header">
+
+        <a href="#"  style="margin: 0%; color: white;">Task List</a>
+      </div>
+  </nav>
+
+<h2 style="margin-left: 40%; color: white;">Task List</h2>
+<p id="myId" style="margin-left:40%; color: white;"></p> 
+<script> 
+var date = new Date(); 
+var dd = date.getDate(); 
+var mm = date.getMonth() + 1; 
+var yyyy = date.getFullYear(); 
+var hh = date.getHours();
+var mn = date.getMinutes();
+var ss = date.getSeconds()
+var newDate = dd + "-" + mm + "-" +yyyy + '|'+ hh + ':' + mn + ':' + ss; 
+var p = document.getElementById("myId"); 
+p.innerHTML = newDate; 
+</script> 
+<div class="table-container">
+    <table class="table">
+        <thead>
+            
+        <tr style="border: 1px solid black; text-align: center;">
+            <th>Sr No.</th>
+            <th>Task</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for task_data in task%}
+        <tr>
+            <td>  {{task_data.sr_no}}</td>
+            <td>{{task_data.task}}</td>
+            <td>{{task_data.status.value}}</td>
+            <td><a href="{{url_for('edit', id=task_data.id)}}" onclick="return confirm('Do you want to update task {{task_data.task}}?')" class="btn btn-primary">Edit</a>
+            <a href="{{url_for('delete', id=task_data.id )}}" onclick="return confirm('Do you want to permanently delete task {{task_data.task}}?');" class="btn btn-primary">Delete</a></td>
+        </tr>
+      {%endfor%}
+    </tbody>
+    </table>
+    <form action="{{url_for('index')}}" method="post">
+    <table class="table">
+        <tr >
+            <td style="border: 1px solid black;">
+                <label for="sr_no" class="container-fluid" >Sr No.</label>
+            </td>
+            <td style="border: 1px solid black;">
+
+                <input type="number" id="sr_no" class="container-fluid" name="sr_no"  style="color:black">
+            </td>
+            
+            <td style="border: 1px solid black;">
+                <label for="new_task" class="container-fluid" >New Task</label>
+            </td>
+            <td style="border: 1px solid black;">
+
+                <input type="text" id="new_task" class="container-fluid" name="new_task"  size="100" style="color:black">
+            </td>
+            <td>
+
+            </tr>
+            <tr><td>
+                <label for="status" class="col-form-label">Status</label>
+            </td>
+            <td>
+
+
+                <label  >
+                <input style="border: white;" type="radio" id="radio1"  name="status" value="done"> Done </label>
+            </td>
+            <td>
+                <label >
+                <input type="radio" id="radio2"  name="status" value="unfinished"> Unfinished </label>
+            </td>
+            <td>
+                <label >
+                <input type="radio" id="radio3"  name="status" value="postpone"> Postponed </label>
+            </td>
+            <td>
+                <label >
+                <input type="radio" id="radio4" name="status" value="cancelled"> Cancelled </label>
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+
+                <button type="submit" class="btn btn-primary">Add Task</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</div>
+
+       
+</body>
+</html>
